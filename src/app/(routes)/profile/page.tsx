@@ -17,9 +17,9 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <button>
+        <Link href={"/settings"}>
           <CogIcon />
-        </button>
+        </Link>
       </section>
 
       <section className="mt-8 flex justify-center">
