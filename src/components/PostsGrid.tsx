@@ -35,8 +35,8 @@ export default function PostsGrid() {
         columnClassName="pl-4"
       >
         {images.map((src, index) => (
-          <div className="mb-4">
-            <img src={src} alt="" key={index} />
+          <div key={index} className="mb-4">
+            <img src={src} alt="" />
           </div>
         ))}
       </Masonry>
