@@ -1,8 +1,16 @@
+import { auth } from "@/auth";
 import PostsGrid from "@/components/PostsGrid";
+import { prisma } from "@/db";
 import { CheckIcon, ChevronLeft, CogIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const session = await auth();
+
+  const profile = await prisma.profile.findFirstOrThrow({
+    where: { email: session?.user?.email as string },
+  });
+
   return (
     <main>
       <section className="flex justify-between items-center">
@@ -11,7 +19,7 @@ export default function ProfilePage() {
         </button>
 
         <div className="font-bold flex items-center gap-2">
-          nbg{" "}
+          {profile.username}
           <div className="size-5 rounded-full bg-ig-red inline-flex justify-center items-center text-white">
             <CheckIcon size={16} />
           </div>
@@ -37,10 +45,10 @@ export default function ProfilePage() {
       </section>
 
       <section className="text-center mt-4">
-        <h1 className="text-xl font-bold">Johny</h1>
-        <p className="text-gray-500 mt-1 mb-1">Business account</p>
+        <h1 className="text-xl font-bold">{profile.name}</h1>
+        <p className="text-gray-500 mt-1 mb-1">{profile.subtitle}</p>
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam, eius!{" "}
+          {profile.bio}
           <br />
           Contact: nbg@gmail.com
         </p>
