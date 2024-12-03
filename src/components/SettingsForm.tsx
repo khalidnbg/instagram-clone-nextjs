@@ -20,17 +20,19 @@ export default function SettingsForm({
   const [file, setFile] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
 
+  // Effect to upload the file when selected
   useEffect(() => {
     if (file) {
-      const data = new FormData();
-      data.set("file", file);
+      const data = new FormData(); // Create a FormData object for file upload
+      data.set("file", file); // Append the file to the FormData
 
+      // Send a POST request to upload the file
       fetch("/api/upload", {
         method: "POST",
         body: data,
       }).then((response) => {
         response.json().then((url) => {
-          setAvatarUrl(url);
+          setAvatarUrl(url); // Update the avatar URL with the response
         });
       });
     }
@@ -39,26 +41,26 @@ export default function SettingsForm({
   return (
     <form
       action={async (data: FormData) => {
-        await updateProfile(data, userEmail);
+        await updateProfile(data, userEmail); // Call the updateProfile action
 
-        router.push("/profile");
+        router.push("/profile"); // Redirect to the profile page
         router.refresh();
       }}
     >
-      <input type="hidden" name="avatar" value={avatarUrl} />
+      <input type="hidden" name="avatar" value={avatarUrl || ""} />
       <div className="flex gap-4 items-center">
         <div>
           <div className="bg-gray-400 rounded-full overflow-hidden border border-gray-400 shadow-md shadow-gray-200 aspect-square">
-            <img src={avatarUrl} alt="" />
+            <img src={avatarUrl || ""} alt="" />
           </div>
         </div>
 
         <div>
           <input
             type="file"
-            ref={fileInRef}
+            ref={fileInRef} // Attach the file input reference
             className="hidden"
-            onChange={(ev) => setFile(ev.target?.files?.[0])}
+            onChange={(ev) => setFile(ev.target?.files?.[0] || null)}
           />
           <Button
             type="button"
