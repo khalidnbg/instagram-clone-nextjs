@@ -5,6 +5,7 @@ import { Profile } from "@prisma/client";
 import { Button, TextArea, TextField } from "@radix-ui/themes";
 import { CloudUploadIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 export default function SettingsForm({
   userEmail,
@@ -14,6 +15,20 @@ export default function SettingsForm({
   profile: Profile;
 }) {
   const router = useRouter();
+
+  const fileInRef = useRef<HTMLInputElement>();
+  const [file, setFile] = useState<File | null>(null);
+  useEffect(() => {
+    if (file) {
+      const data = new FormData();
+      data.set("file", file);
+
+      fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      }).then((response) => {});
+    }
+  }, [file]);
 
   return (
     <form
@@ -30,7 +45,17 @@ export default function SettingsForm({
         </div>
 
         <div>
-          <Button variant="surface">
+          <input
+            type="file"
+            ref={fileInRef}
+            className="hidden"
+            onChange={(ev) => setFile(ev.target?.files?.[0])}
+          />
+          <Button
+            type="button"
+            variant="surface"
+            onClick={() => fileInRef.current?.click()}
+          >
             <CloudUploadIcon />
             Change avatar
           </Button>
