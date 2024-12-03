@@ -18,6 +18,8 @@ export default function SettingsForm({
 
   const fileInRef = useRef<HTMLInputElement>();
   const [file, setFile] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
+
   useEffect(() => {
     if (file) {
       const data = new FormData();
@@ -26,7 +28,11 @@ export default function SettingsForm({
       fetch("/api/upload", {
         method: "POST",
         body: data,
-      }).then((response) => {});
+      }).then((response) => {
+        response.json().then((url) => {
+          setAvatarUrl(url);
+        });
+      });
     }
   }, [file]);
 
@@ -41,7 +47,9 @@ export default function SettingsForm({
     >
       <div className="flex gap-4 items-center">
         <div>
-          <div className="bg-gray-400 size-24 rounded-full"></div>
+          <div className="bg-gray-400 size-24 rounded-full overflow-hidden border border-gray-400 shadow-md shadow-gray-200 aspect-square">
+            <img src={avatarUrl} alt="" />
+          </div>
         </div>
 
         <div>

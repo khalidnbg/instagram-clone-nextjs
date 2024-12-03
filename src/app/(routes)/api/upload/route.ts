@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
     //   expires: 3600,
     // });
 
-    const fileUrl = `${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${uploadData.cid}`;
+    const fileUrl = `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${uploadData.cid}`;
 
-    return NextResponse.json({ fileUrl }, { status: 200 });
+    return NextResponse.json(fileUrl, { status: 200 });
   } catch (e) {
     console.log(e);
     return NextResponse.json(
