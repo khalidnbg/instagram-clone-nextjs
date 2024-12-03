@@ -18,7 +18,7 @@ export default function SettingsForm({
 
   const fileInRef = useRef<HTMLInputElement>();
   const [file, setFile] = useState<File | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
 
   useEffect(() => {
     if (file) {
@@ -45,9 +45,10 @@ export default function SettingsForm({
         router.refresh();
       }}
     >
+      <input type="hidden" name="avatar" value={avatarUrl} />
       <div className="flex gap-4 items-center">
         <div>
-          <div className="bg-gray-400 size-24 rounded-full overflow-hidden border border-gray-400 shadow-md shadow-gray-200 aspect-square">
+          <div className="bg-gray-400 rounded-full overflow-hidden border border-gray-400 shadow-md shadow-gray-200 aspect-square">
             <img src={avatarUrl} alt="" />
           </div>
         </div>

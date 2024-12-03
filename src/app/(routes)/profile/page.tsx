@@ -34,11 +34,7 @@ export default async function ProfilePage() {
         <div className="size-48 bg-gradient-to-tr from-ig-orange to-ig-red rounded-full p-2">
           <div className="size-44 bg-white rounded-full p-2">
             <div className="size-40 aspect-square overflow-hidden rounded-full">
-              <img
-                src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
-                className=""
-              />
+              <img src={profile.avatar || ""} alt="" className="" />
             </div>
           </div>
         </div>
