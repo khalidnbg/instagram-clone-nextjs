@@ -16,7 +16,7 @@ export default function SettingsForm({
 }) {
   const router = useRouter();
 
-  const fileInRef = useRef<HTMLInputElement>();
+  const fileInRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
 
