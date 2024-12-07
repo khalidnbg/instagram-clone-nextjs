@@ -1,4 +1,7 @@
+import Avatar from "@/components/Avatar";
+import CommentForm from "@/components/CommentForm";
 import { prisma } from "@/db";
+import { Suspense } from "react";
 
 export default async function SinglePostPage({
   params,
@@ -21,12 +24,7 @@ export default async function SinglePostPage({
         <div>
           <div className="flex gap-2">
             <div>
-              <div className="size-16 aspect-square overflow-hidden rounded-full">
-                <img
-                  src={authorProfile.avatar || ""}
-                  alt={authorProfile.username + "avatar"}
-                />
-              </div>
+              <Avatar src={authorProfile.avatar || ""} />
             </div>
 
             <div>
@@ -40,6 +38,12 @@ export default async function SinglePostPage({
                 <p>{post.description}</p>
               </div>
             </div>
+          </div>
+
+          <div className="pt-8 border-t mt-8 border-t-gray-500">
+            <Suspense>
+              <CommentForm />
+            </Suspense>
           </div>
         </div>
       </div>
