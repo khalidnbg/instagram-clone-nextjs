@@ -1,22 +1,43 @@
-import { auth } from "@/auth";
-import { prisma } from "@/db";
+"use client";
+
 import { Button, TextArea } from "@radix-ui/themes";
 import Avatar from "./Avatar";
+import { postComment } from "@/actions";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
-export default async function CommentForm() {
-  const session = await auth();
-  const profile = await prisma.profile.findFirstOrThrow({
-    where: { email: session?.user?.email as string },
-  });
+export default function CommentForm({
+  postId,
+  avatar,
+}: {
+  postId: string;
+  avatar: string;
+}) {
+  const router = useRouter();
+
+  const areaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
-    <form>
+    <form
+      action={async (data) => {
+        if (areaRef.current) {
+          areaRef.current.value = "";
+        }
+        await postComment(data);
+        router.refresh();
+      }}
+    >
+      <input type="hidden" name="postId" value={postId} />
       <div className="flex gap-2">
         <div>
-          <Avatar src={profile.avatar || ""} />
+          <Avatar src={avatar} />
         </div>
         <div className="w-full flex flex-col gap-2">
-          <TextArea placeholder="Tell the world what you think ..." />
+          <TextArea
+            ref={areaRef}
+            name="text"
+            placeholder="Tell the world what you think ..."
+          />
           <div>
             <Button>Post Comment</Button>
           </div>

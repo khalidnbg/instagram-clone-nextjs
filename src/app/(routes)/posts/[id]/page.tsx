@@ -1,7 +1,8 @@
-import Avatar from "@/components/Avatar";
-import CommentForm from "@/components/CommentForm";
+import Comment from "@/components/Comment";
+import SessionCommentForm from "@/components/SessionCommentForm";
 import { prisma } from "@/db";
 import { Suspense } from "react";
+import { uniq } from "lodash";
 
 export default async function SinglePostPage({
   params,
@@ -11,6 +12,16 @@ export default async function SinglePostPage({
   const post = await prisma.post.findFirstOrThrow({ where: { id: params.id } });
   const authorProfile = await prisma.profile.findFirstOrThrow({
     where: { email: post.author },
+  });
+  const comments = await prisma.comment.findMany({
+    where: {
+      postId: post.id,
+    },
+  });
+  const commentsAuthor = await prisma.profile.findMany({
+    where: {
+      email: { in: uniq(comments.map((c) => c.author)) },
+    },
   });
 
   return (
@@ -22,27 +33,29 @@ export default async function SinglePostPage({
         </div>
 
         <div>
-          <div className="flex gap-2">
-            <div>
-              <Avatar src={authorProfile.avatar || ""} />
-            </div>
+          <Comment
+            createdAt={post.createdAt}
+            text={post.description}
+            authorProfile={authorProfile}
+          />
 
-            <div>
-              <h3 className="flex gap-1">{authorProfile.name} </h3>
-              <h4>
-                <span className="text-gray-600 text-sm -mt-1">
-                  @{authorProfile.username}
-                </span>
-              </h4>
-              <div className="bg-gray-200 rounded-md p-4 mt-2 border border-gray-300">
-                <p>{post.description}</p>
+          <div className="pt-4 flex flex-col gap-4">
+            {comments.map((comment) => (
+              <div key={comment.id}>
+                <Comment
+                  createdAt={comment.createdAt}
+                  text={comment.text}
+                  authorProfile={commentsAuthor.find(
+                    (a) => a.email === comment.author
+                  )}
+                />
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="pt-8 border-t mt-8 border-t-gray-500">
             <Suspense>
-              <CommentForm />
+              <SessionCommentForm postId={post.id} />
             </Suspense>
           </div>
         </div>
