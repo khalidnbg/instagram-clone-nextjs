@@ -3,6 +3,9 @@ import SessionCommentForm from "@/components/SessionCommentForm";
 import { prisma } from "@/db";
 import { Suspense } from "react";
 import { uniq } from "lodash";
+import { BookmarkIcon, HeartIcon } from "lucide-react";
+import LikesInfo from "@/components/LikesInfo";
+import { getSessionEmailOrThrow } from "@/actions";
 
 export default async function SinglePostPage({
   params,
@@ -21,6 +24,12 @@ export default async function SinglePostPage({
   const commentsAuthor = await prisma.profile.findMany({
     where: {
       email: { in: uniq(comments.map((c) => c.author)) },
+    },
+  });
+  const myLike = await prisma.like.findFirst({
+    where: {
+      author: await getSessionEmailOrThrow(),
+      postId: post.id,
     },
   });
 
@@ -53,7 +62,17 @@ export default async function SinglePostPage({
             ))}
           </div>
 
-          <div className="pt-8 border-t mt-8 border-t-gray-500">
+          <div className="flex items-center gap-2 justify-between text-gray-700 py-4 border-t border-t-gray-300">
+            <LikesInfo post={post} sessionLike={myLike} />
+
+            <div className="flex items-center">
+              <button>
+                <BookmarkIcon />
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-t-gray-500">
             <Suspense>
               <SessionCommentForm postId={post.id} />
             </Suspense>
