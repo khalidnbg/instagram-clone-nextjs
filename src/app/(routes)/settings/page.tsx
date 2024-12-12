@@ -13,15 +13,22 @@ export default async function page() {
   }
 
   // Fetch the user's profile from the database using their email
-  const profile = await prisma.profile.findFirstOrThrow({
+  const profile = await prisma.profile.findFirst({
     where: { email: session.user.email },
   });
+
+  if (!profile) {
+  }
 
   return (
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4 text-center">Profile Settings</h1>
 
-      <SettingsForm profile={profile} userEmail={session?.user?.email} />
+      <p className="text-gray-500 text-sm text-center -mt-4 mb-4">
+        {session.user.email}
+      </p>
+
+      <SettingsForm profile={profile} />
 
       <div className="flex justify-center mt-4 pt-4 border-t border-gray-200">
         <form

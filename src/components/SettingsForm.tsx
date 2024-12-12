@@ -8,17 +8,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function SettingsForm({
-  userEmail,
   profile,
 }: {
-  userEmail: string;
-  profile: Profile;
+  profile?: Profile | null;
 }) {
   const router = useRouter();
 
   const fileInRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
+  const [avatarUrl, setAvatarUrl] = useState(profile?.avatar || null);
 
   // Effect to upload the file when selected
   useEffect(() => {
@@ -41,7 +39,7 @@ export default function SettingsForm({
   return (
     <form
       action={async (data: FormData) => {
-        await updateProfile(data, userEmail); // Call the updateProfile action
+        await updateProfile(data); // Call the updateProfile action
 
         router.push("/profile"); // Redirect to the profile page
         router.refresh();
@@ -76,26 +74,26 @@ export default function SettingsForm({
       <p className="mt-2 font-bold">username</p>
       <TextField.Root
         name="username"
-        defaultValue={profile.username || ""}
+        defaultValue={profile?.username || ""}
         placeholder="your_username"
       />
 
       <p className="mt-2 font-bold">name</p>
       <TextField.Root
         name="name"
-        defaultValue={profile.name || ""}
+        defaultValue={profile?.name || ""}
         placeholder="nbg"
       />
 
       <p className="mt-2 font-bold">subtitle</p>
       <TextField.Root
         name="subtitle"
-        defaultValue={profile.subtitle || ""}
+        defaultValue={profile?.subtitle || ""}
         placeholder="web developer"
       />
 
       <p className="mt-2 font-bold">bio</p>
-      <TextArea name="bio" defaultValue={profile.bio || ""} />
+      <TextArea name="bio" defaultValue={profile?.bio || ""} />
 
       <div className="mt-2 flex justify-center">
         <Button variant="solid">Save settings</Button>
