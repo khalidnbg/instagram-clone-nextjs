@@ -1,6 +1,7 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import SettingsForm from "@/components/SettingsForm";
 import { prisma } from "@/db";
+import { Button } from "@radix-ui/themes";
 
 export default async function page() {
   // Authenticate the user and get their session
@@ -21,6 +22,19 @@ export default async function page() {
       <h1 className="text-2xl font-bold mb-4 text-center">Profile Settings</h1>
 
       <SettingsForm profile={profile} userEmail={session?.user?.email} />
+
+      <div className="flex justify-center mt-4 pt-4 border-t border-gray-200">
+        <form
+          action={async () => {
+            "use server";
+            await signOut();
+          }}
+        >
+          <Button type="submit" variant="outline">
+            Logout
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }
