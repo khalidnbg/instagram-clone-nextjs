@@ -27,7 +27,7 @@ export default function DesktopNav() {
 
           <Link href="/browse">
             <LayoutGridIcon />
-            Browser
+            Browse
           </Link>
 
           <Link href="/profile">
