@@ -16,9 +16,9 @@ export default function PostsGrid({ posts }: { posts: Post[] }) {
         className="flex -ml-4"
         columnClassName="pl-4"
       >
-        {posts.map((post, index) => (
+        {posts.map((post) => (
           <Link href={`/posts/${post.id}`} key={post.id} className="mb-4">
-            <img src={post.image} alt="" />
+            <img className="rounded-lg" src={post.image} alt="" />
           </Link>
         ))}
       </Masonry>

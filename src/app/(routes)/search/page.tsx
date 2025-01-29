@@ -9,12 +9,14 @@ export default async function SearchPage({
 }) {
   return (
     <div className="w-full">
-      <div className="max-w-sm mx-auto">
+      <div className="max-w-md mx-auto">
         <SearchForm />
 
-        <Suspense fallback="Loading...">
-          <SearchResults query={query} />
-        </Suspense>
+        {typeof query !== "undefined" && (
+          <Suspense fallback="Loading...">
+            <SearchResults query={query} />
+          </Suspense>
+        )}
       </div>
     </div>
   );
