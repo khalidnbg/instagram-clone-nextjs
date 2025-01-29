@@ -1,21 +1,16 @@
 import { getSessionEmailOrThrow } from "@/actions";
 import { prisma } from "@/db";
+import { Follower, Profile } from "@prisma/client";
 import { Avatar } from "@radix-ui/themes";
 import { PlusIcon } from "lucide-react";
 
-export default async function HomeTopRow() {
-  const follows = await prisma.follower.findMany({
-    where: {
-      followingProfileEmail: (await getSessionEmailOrThrow()) || "",
-    },
-  });
-
-  const profiles = await prisma.profile.findMany({
-    where: {
-      id: { in: follows.map((f) => f.followedProfileId) },
-    },
-  });
-
+export default async function HomeTopRow({
+  follows,
+  profiles,
+}: {
+  follows: Follower[];
+  profiles: Profile[];
+}) {
   return (
     <div className="flex gap-3">
       <div>

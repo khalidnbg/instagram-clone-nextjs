@@ -1,16 +1,12 @@
 import { auth, signIn, signOut } from "@/auth";
-import HomeTopRow from "@/components/HomeTopRow";
+import UserHome from "@/components/UserHome";
 
 export default async function Home() {
   const session = await auth();
 
   return (
     <div className="">
-      {session && (
-        <div>
-          <HomeTopRow />
-        </div>
-      )}
+      {session && <UserHome session={session} />}
 
       {!session && (
         <form
