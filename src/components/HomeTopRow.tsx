@@ -21,7 +21,10 @@ export default async function HomeTopRow({
       </div>
 
       {profiles.map((profile) => (
-        <div className="w-24 flex justify-center flex-col items-center">
+        <div
+          key={profile.id}
+          className="w-24 flex justify-center flex-col items-center"
+        >
           <div>
             <div className="inline-block bg-gradient-to-tr from-ig-orange to-ig-red rounded-full p-1.5">
               <div className="inline-block bg-white rounded-full p-0.5">
