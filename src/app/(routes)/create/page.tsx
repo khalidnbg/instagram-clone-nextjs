@@ -31,6 +31,7 @@ export default function CreatePage() {
 
   return (
     <form
+      className="max-w-md mx-auto"
       action={async (data) => {
         const id = await postEntry(data);
         router.push(`/post/${id}`);
@@ -41,7 +42,7 @@ export default function CreatePage() {
       <div className="flex flex-col gap-4">
         <div>
           {/* {JSON.stringify(imageUrl)} */}
-          <div className="w-64 min-h-64 bg-gray-400 p-2 rounded-md relative">
+          <div className="min-h-64 bg-gray-400 p-2 rounded-md relative">
             {imageUrl && <img src={imageUrl} className="rounded-md" />}
 
             <div className="absolute inset-0 flex items-center justify-center">
