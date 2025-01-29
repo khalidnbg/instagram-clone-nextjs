@@ -1,3 +1,4 @@
+import { getSessionEmail, getSessionEmailOrThrow } from "@/actions";
 import ProfilePageContent from "@/components/ProfilePageContent";
 import { prisma } from "@/db";
 
@@ -10,9 +11,16 @@ export default async function UserProfilePage({
     where: { username },
   });
 
+  const ourFollow = await prisma.follower.findFirst({
+    where: {
+      followingProfileEmail: (await getSessionEmail()) || "",
+      followedProfileId: profile.id,
+    },
+  });
+
   return (
     <div>
-      <ProfilePageContent profile={profile} />;
+      <ProfilePageContent ourFollow={ourFollow} profile={profile} />
     </div>
   );
 }

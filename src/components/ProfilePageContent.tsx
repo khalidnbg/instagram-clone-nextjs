@@ -3,14 +3,17 @@ import { CheckIcon, ChevronLeft, CogIcon } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { Profile } from "@prisma/client";
+import { Follower, Profile } from "@prisma/client";
+import FollowButton from "./FollowButton";
 
 export default function ProfilePageContent({
   profile,
   isOurProfile = false,
+  ourFollow = null,
 }: {
   profile: Profile;
   isOurProfile?: boolean;
+  ourFollow?: Follower | null;
 }) {
   return (
     <main>
@@ -48,12 +51,14 @@ export default function ProfilePageContent({
       <section className="text-center mt-4">
         <h1 className="text-xl font-bold">{profile.name}</h1>
         <p className="text-gray-500 mt-1 mb-1">{profile.subtitle}</p>
-        <p>
-          {profile.bio}
-          <br />
-          Contact: nbg@gmail.com
-        </p>
+        <p>{profile.bio}</p>
       </section>
+
+      {!isOurProfile && (
+        <section className="flex justify-center my-4">
+          <FollowButton ourFollow={ourFollow} profileIdToFollow={profile.id} />
+        </section>
+      )}
 
       <section className="mt-4">
         <div className="flex justify-center gap-4 font-bold">
