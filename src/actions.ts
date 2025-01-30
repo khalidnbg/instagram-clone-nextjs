@@ -163,3 +163,25 @@ export async function unFollowProfile(profileIdToFollow: string) {
     },
   });
 }
+
+export async function bookmarkPost(postId: string) {
+  const sessionEmail = await getSessionEmailOrThrow();
+
+  await prisma.bookmark.create({
+    data: {
+      author: sessionEmail || "",
+      postId,
+    },
+  });
+}
+
+export async function unbookmarkPost(postId: string) {
+  const sessionEmail = await getSessionEmailOrThrow();
+
+  await prisma.bookmark.deleteMany({
+    where: {
+      author: sessionEmail || "",
+      postId,
+    },
+  });
+}
