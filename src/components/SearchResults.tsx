@@ -30,7 +30,7 @@ export default async function SearchResults({ query }: { query: string }) {
             <Link
               href={`/users/${profile.username}`}
               key={profile.id}
-              className="flex gap-2 bg-gray-200 border border-gray-300 p-2 rounded-full"
+              className="flex gap-2 bg-gray-200 border dark:bg-gray-800 border-gray-300 dark:border-gray-900 p-2 rounded-full"
             >
               <div>
                 <Avatar
@@ -42,7 +42,9 @@ export default async function SearchResults({ query }: { query: string }) {
               </div>
               <div>
                 <h3>{profile.name}</h3>
-                <h4 className="text-gray-500 text-sm">@{profile.username}</h4>
+                <h4 className="text-gray-500 text-sm dark:text-gray-400">
+                  @{profile.username}
+                </h4>
               </div>
             </Link>
           ))}

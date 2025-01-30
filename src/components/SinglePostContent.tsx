@@ -27,8 +27,6 @@ export default async function SinglePostContent({
   myLike: Like | null;
   myBookmark: Bookmark | null;
 }) {
-  // const data = getSinglePostDate(postId);
-
   return (
     <div>
       <div className="grid md:grid-cols-2 gap-4">
@@ -57,7 +55,7 @@ export default async function SinglePostContent({
             ))}
           </div>
 
-          <div className="flex items-center gap-2 justify-between text-gray-700 py-4 border-t border-t-gray-300">
+          <div className="flex items-center dark:text-gray-300 gap-2 justify-between text-gray-700 py-4 border-t border-t-gray-300 dark:border-gray-700">
             <LikesInfo post={post} sessionLike={myLike} />
 
             <div className="flex items-center">
@@ -65,7 +63,7 @@ export default async function SinglePostContent({
             </div>
           </div>
 
-          <div className="pt-8 border-t border-t-gray-500">
+          <div className="pt-8 border-t border-gray-500">
             <Suspense>
               <SessionCommentForm postId={post.id} />
             </Suspense>

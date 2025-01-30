@@ -1,5 +1,5 @@
 import { getSinglePostDate } from "@/actions";
-import Preloader from "@/components/Prealoader";
+import Preloader from "@/components/Preloader";
 import SinglePostContent from "@/components/SinglePostContent";
 import { Suspense } from "react";
 

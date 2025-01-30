@@ -22,7 +22,7 @@ export default function Comment({
           <div>
             <h3 className="flex gap-1">{authorProfile?.name} </h3>
             <h4>
-              <span className="text-gray-600 text-sm -mt-1">
+              <span className="text-gray-600 dark:text-gray-300 text-sm -mt-1">
                 @{authorProfile?.username}
               </span>
             </h4>
@@ -30,7 +30,7 @@ export default function Comment({
         </div>
 
         <div>
-          <div className="bg-gray-200 rounded-md p-4 mt-2 border border-gray-300">
+          <div className="bg-gray-200 rounded-md dark:bg-gray-700 dark:border-0 dark:text-gray-200 p-4 mt-2 border border-gray-300">
             <p>{text}</p>
           </div>
 

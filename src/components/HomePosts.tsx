@@ -63,13 +63,13 @@ export default async function HomePosts({
 
                 <Link
                   href={`/users/${profile?.username}`}
-                  className="font-bold text-gray-700"
+                  className="font-bold text-gray-700 dark:text-gray-300"
                 >
                   {profile?.name}
                 </Link>
               </div>
 
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center ">
                 <LikesInfo
                   post={post}
                   sessionLike={
@@ -87,7 +87,9 @@ export default async function HomePosts({
               </div>
             </div>
 
-            <p className="mt-2 text-slate-600">{post.description}</p>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">
+              {post.description}
+            </p>
           </div>
         );
       })}

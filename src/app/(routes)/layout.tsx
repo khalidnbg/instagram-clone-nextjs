@@ -6,6 +6,7 @@ import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import MobileNav from "@/components/MobileNav";
 import DesktopNav from "@/components/DesktopNav";
+import ThemeObserver from "@/components/ThemeObserver";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -32,10 +33,12 @@ Readonly<{
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <Theme>
           {/* {modal} */}
-          <div className="flex min-h-screen">
+          <div className="flex min-h-screen dark:bg-gray-950 dark:text-gray-200">
             <DesktopNav />
             <div className="pb-24 lg:pb-4 lg:px-8 px-4 pt-4 flex justify-around w-full">
               <div className="w-full">{children}</div>
@@ -43,6 +46,8 @@ Readonly<{
           </div>
           <MobileNav />
         </Theme>
+
+        <ThemeObserver />
       </body>
     </html>
   );
