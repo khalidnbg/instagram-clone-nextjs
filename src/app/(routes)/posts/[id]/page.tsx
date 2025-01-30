@@ -8,7 +8,7 @@ export default async function SinglePostPage({
 }: {
   params: { id: string };
 }) {
-  const { post, authorProfile, comments, commentsAuthor, myLike } =
+  const { post, authorProfile, comments, commentsAuthor, myLike, myBookmark } =
     await getSinglePostDate(params.id);
 
   return (
@@ -19,6 +19,7 @@ export default async function SinglePostPage({
         comments={comments}
         commentsAuthor={commentsAuthor}
         myLike={myLike}
+        myBookmark={myBookmark}
       />
     </Suspense>
   );

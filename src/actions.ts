@@ -1,6 +1,5 @@
 "use server";
 
-import Email from "next-auth/providers/email";
 import { auth } from "./auth";
 import { prisma } from "./db";
 
@@ -32,13 +31,13 @@ export async function updateProfile(data: FormData) {
 
   await prisma.profile.upsert({
     where: {
-      email: userEmail,
+      email: userEmail || "",
     },
 
     update: newUserInfo,
 
     create: {
-      email: userEmail,
+      email: userEmail || "",
       ...newUserInfo,
     },
   });
@@ -49,7 +48,7 @@ export async function postEntry(data: FormData) {
 
   const postDoc = await prisma.post.create({
     data: {
-      author: sessionEmail,
+      author: sessionEmail || "",
       image: data.get("image") as string,
       description: (data.get("description") as string) || "",
     },
@@ -62,7 +61,7 @@ export async function postComment(data: FormData) {
   const authorEmail = await getSessionEmailOrThrow();
   return await prisma.comment.create({
     data: {
-      author: authorEmail,
+      author: authorEmail || "",
       postId: data.get("postId") as string,
       text: data.get("text") as string,
     },
@@ -86,7 +85,7 @@ export async function likePost(data: FormData) {
   const authorEmail = await getSessionEmailOrThrow();
   await prisma.like.create({
     data: {
-      author: authorEmail,
+      author: authorEmail || "",
       postId,
     },
   });
@@ -99,7 +98,7 @@ export async function removeLikeFromPost(data: FormData) {
   await prisma.like.deleteMany({
     where: {
       postId,
-      author: await getSessionEmailOrThrow(),
+      author: (await getSessionEmailOrThrow()) || "",
     },
   });
 
@@ -108,22 +107,33 @@ export async function removeLikeFromPost(data: FormData) {
 
 export async function getSinglePostDate(postId: string) {
   const post = await prisma.post.findFirstOrThrow({ where: { id: postId } });
+
   const authorProfile = await prisma.profile.findFirstOrThrow({
     where: { email: post.author },
   });
+
   const comments = await prisma.comment.findMany({
     where: {
       postId: post.id,
     },
   });
+
   const commentsAuthor = await prisma.profile.findMany({
     where: {
       email: { in: uniq(comments.map((c) => c.author)) },
     },
   });
+
   const myLike = await prisma.like.findFirst({
     where: {
-      author: await getSessionEmailOrThrow(),
+      author: (await getSessionEmailOrThrow()) || "",
+      postId: post.id,
+    },
+  });
+
+  const myBookmark = await prisma.bookmark.findFirst({
+    where: {
+      author: (await getSessionEmailOrThrow()) || "",
       postId: post.id,
     },
   });
@@ -134,6 +144,7 @@ export async function getSinglePostDate(postId: string) {
     comments,
     commentsAuthor,
     myLike,
+    myBookmark,
   };
 }
 

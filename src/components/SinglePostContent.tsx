@@ -3,8 +3,14 @@ import SessionCommentForm from "@/components/SessionCommentForm";
 import { Suspense } from "react";
 import { BookmarkIcon } from "lucide-react";
 import LikesInfo from "@/components/LikesInfo";
-import { getSinglePostDate } from "@/actions";
-import { Comment as CommentModal, Like, Post, Profile } from "@prisma/client";
+import {
+  Bookmark,
+  Comment as CommentModal,
+  Like,
+  Post,
+  Profile,
+} from "@prisma/client";
+import BookmarkButton from "./BookmarkButton";
 
 export default async function SinglePostContent({
   post,
@@ -12,12 +18,14 @@ export default async function SinglePostContent({
   comments,
   commentsAuthor,
   myLike,
+  myBookmark,
 }: {
   post: Post;
   authorProfile: Profile;
   comments: CommentModal[];
   commentsAuthor: Profile[];
   myLike: Like | null;
+  myBookmark: Bookmark | null;
 }) {
   // const data = getSinglePostDate(postId);
 
@@ -53,9 +61,7 @@ export default async function SinglePostContent({
             <LikesInfo post={post} sessionLike={myLike} />
 
             <div className="flex items-center">
-              <button>
-                <BookmarkIcon />
-              </button>
+              <BookmarkButton post={post} sessionBookmark={myBookmark} />
             </div>
           </div>
 
