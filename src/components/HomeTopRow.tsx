@@ -12,7 +12,7 @@ export default async function HomeTopRow({
   profiles: Profile[];
 }) {
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 l:justify-center max-w-full overflow-x-auto">
       <div>
         <button className="bg-gradient-to-tr from-ig-orange to-ig-red rounded-full size-[92px] text-white flex items-center justify-center">
           <PlusIcon size="42" />

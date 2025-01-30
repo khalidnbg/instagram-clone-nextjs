@@ -1,5 +1,7 @@
 import { getSinglePostDate } from "@/actions";
+import Preloader from "@/components/Prealoader";
 import SinglePostContent from "@/components/SinglePostContent";
+import { Suspense } from "react";
 
 export default async function SinglePostPage({
   params,
@@ -10,12 +12,14 @@ export default async function SinglePostPage({
     await getSinglePostDate(params.id);
 
   return (
-    <SinglePostContent
-      post={post}
-      authorProfile={authorProfile}
-      comments={comments}
-      commentsAuthor={commentsAuthor}
-      myLike={myLike}
-    />
+    <Suspense fallback={<Preloader />}>
+      <SinglePostContent
+        post={post}
+        authorProfile={authorProfile}
+        comments={comments}
+        commentsAuthor={commentsAuthor}
+        myLike={myLike}
+      />
+    </Suspense>
   );
 }

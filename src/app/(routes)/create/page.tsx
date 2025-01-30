@@ -12,10 +12,12 @@ export default function CreatePage() {
   const [imageUrl, setImageUrl] = useState("");
 
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (file) {
+      setIsUploading(true);
       const data = new FormData();
       data.set("file", file);
       fetch("api/upload", {
@@ -24,6 +26,7 @@ export default function CreatePage() {
       }).then((response) =>
         response.json().then((url) => {
           setImageUrl(url);
+          setIsUploading(false);
         })
       );
     }
@@ -52,12 +55,13 @@ export default function CreatePage() {
                 onChange={(ev) => setFile(ev.target.files?.[0] || null)}
               />
               <Button
+                disabled={isUploading}
                 variant="surface"
                 type="button"
                 onClick={() => fileInRef?.current?.click()}
               >
-                Choose Image
-                <CloudUploadIcon size={16} />
+                {isUploading ? "Uploading..." : "Upload Image"}
+                {!isUploading && <CloudUploadIcon size={16} />}
               </Button>
             </div>
           </div>
